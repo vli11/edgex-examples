@@ -1,5 +1,6 @@
 //
 // Copyright (C) 2021 IOTech Ltd
+// Copyright 2023 Intel Corp.
 //
 // SPDX-License-Identifier: Apache-2.0
 
@@ -9,7 +10,7 @@ import (
 	"math"
 	"testing"
 
-	"github.com/edgexfoundry/go-mod-core-contracts/v2/common"
+	"github.com/edgexfoundry/go-mod-core-contracts/v3/common"
 )
 
 var device = newRandomDevice()

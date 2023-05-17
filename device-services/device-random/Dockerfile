@@ -14,19 +14,22 @@
 # limitations under the License.
 #
 
-ARG BASE=golang:1.18-alpine3.16
+ARG BASE=golang:1.20-alpine3.17
 FROM ${BASE} AS builder
-ARG ALPINE_PKG_BASE="make git openssh-client gcc libc-dev zeromq-dev libsodium-dev"
+
+ARG ALPINE_PKG_BASE="make git openssh-client gcc libc-dev libsodium-dev"
 ARG ALPINE_PKG_EXTRA=""
+# ARG ADD_BUILD_TAGS=""
+
+WORKDIR /device-random
 
 # Install our build time packages.
 RUN apk add --update --no-cache ${ALPINE_PKG_BASE} ${ALPINE_PKG_EXTRA}
 
-WORKDIR /device-random
+COPY go.mod vendor* ./
+RUN [ ! -d "vendor" ] && go mod download all || echo "skipping..."
 
 COPY . .
-
-RUN go mod download
 
 # To run tests in the build container:
 #   docker build --build-arg 'MAKE=build test' .
@@ -34,13 +37,12 @@ RUN go mod download
 ARG MAKE='make build'
 RUN $MAKE
 
-FROM alpine:3.16
+FROM alpine:3.17
 
 # dumb-init needed for injected secure bootstrapping entrypoint script when run in secure mode.
-RUN apk add --update --no-cache zeromq dumb-init
+RUN apk add --update --no-cache dumb-init
 
 COPY --from=builder /device-random/cmd /
-COPY --from=builder /device-random/LICENSE /
 
 EXPOSE 59988
 

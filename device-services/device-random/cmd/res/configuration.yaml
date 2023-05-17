@@ -1,0 +1,28 @@
+MaxEventSize: 0 # value 0 unlimit the maximum event size that can be sent to message bus or core-data
+Writable:
+  LogLevel: INFO
+
+# # uncomment when running from command-line in hybrid mode with -cp -o flags
+Registry:
+Host: localhost
+
+Clients:
+core-metadata:
+  Host: localhost # uncomment when running from command-line in hybrid mode
+  Port: 59988
+  Protocol: http
+
+Service:
+  Host: localhost
+  Port: 59988
+  StartupMsg: device random started
+
+MessageBus:
+  Host: localhost # uncomment when running from command-line in hybrid mode
+  Optional:
+    ClientId: device-random
+
+Device:
+  # These have common values (currently), but must be here for service local env overrides to apply when customized
+  ProfilesDir: "./res/profiles"
+  DevicesDir: "./res/devices"

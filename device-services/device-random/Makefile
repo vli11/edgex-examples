@@ -40,3 +40,6 @@ device_random:
 		-t edgexfoundry/device-random:$(GIT_SHA) \
 		-t edgexfoundry/device-random:$(VERSION)-dev \
 		.
+
+vendor:
+	CGO_ENABLED=0 go mod vendor

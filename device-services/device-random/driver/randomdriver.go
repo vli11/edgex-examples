@@ -5,7 +5,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 // This package provides a implementation of a ProtocolDriver interface.
-//
 package driver
 
 import (
@@ -13,10 +12,11 @@ import (
 	"sync"
 	"time"
 
-	dsModels "github.com/edgexfoundry/device-sdk-go/v2/pkg/models"
-	"github.com/edgexfoundry/go-mod-core-contracts/v2/clients/logger"
-	"github.com/edgexfoundry/go-mod-core-contracts/v2/common"
-	"github.com/edgexfoundry/go-mod-core-contracts/v2/models"
+	"github.com/edgexfoundry/device-sdk-go/v3/pkg/interfaces"
+	dsModels "github.com/edgexfoundry/device-sdk-go/v3/pkg/models"
+	"github.com/edgexfoundry/go-mod-core-contracts/v3/clients/logger"
+	"github.com/edgexfoundry/go-mod-core-contracts/v3/common"
+	"github.com/edgexfoundry/go-mod-core-contracts/v3/models"
 )
 
 var once sync.Once
@@ -26,9 +26,11 @@ type RandomDriver struct {
 	lc            logger.LoggingClient
 	asyncCh       chan<- *dsModels.AsyncValues
 	randomDevices sync.Map
+	locker        sync.Mutex
+	sdk           interfaces.DeviceServiceSDK
 }
 
-func NewProtocolDriver() dsModels.ProtocolDriver {
+func NewProtocolDriver() interfaces.ProtocolDriver {
 	once.Do(func() {
 		driver = new(RandomDriver)
 	})
@@ -40,9 +42,10 @@ func (d *RandomDriver) DisconnectDevice(deviceName string, protocols map[string]
 	return nil
 }
 
-func (d *RandomDriver) Initialize(lc logger.LoggingClient, asyncCh chan<- *dsModels.AsyncValues, deviceCh chan<- []dsModels.DiscoveredDevice) error {
-	d.lc = lc
-	d.asyncCh = asyncCh
+func (d *RandomDriver) Initialize(sdk interfaces.DeviceServiceSDK) error {
+	d.sdk = sdk
+	d.lc = sdk.LoggingClient()
+	d.asyncCh = sdk.AsyncValuesChannel()
 	return nil
 }
 
@@ -176,5 +179,20 @@ func (d *RandomDriver) UpdateDevice(deviceName string, protocols map[string]mode
 
 func (d *RandomDriver) RemoveDevice(deviceName string, protocols map[string]models.ProtocolProperties) error {
 	d.lc.Debugf("Device %s is removed", deviceName)
+	return nil
+}
+
+func (d *RandomDriver) Discover() error {
+	return fmt.Errorf("driver's Discover function isn't implemented")
+}
+
+func (d *RandomDriver) ValidateDevice(device models.Device) error {
+	d.lc.Debug("Driver's ValidateDevice function isn't implemented")
+	return nil
+}
+
+func (d *RandomDriver) Start() error {
+	d.lc.Debug("Driver's Start function isn't implemented")
+
 	return nil
 }

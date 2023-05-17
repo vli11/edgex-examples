@@ -1,0 +1,21 @@
+# Pre-define Devices
+DeviceList:
+  - Name: Random-Integer-Generator01
+    ProfileName: Random-Integer-Generator
+    Description: Example of Device Random
+    Labels:
+      - device-random-example
+    Protocols:
+      other:
+        Address: simple01
+        Port: '300'
+    AutoEvents:
+      - Interval: 20s
+        OnChange: false
+        SourceName: GenerateRandomValue_Int8
+      - Interval: 20s
+        OnChange: false
+        SourceName: GenerateRandomValue_Int16
+      - Interval: 20s
+        OnChange: false
+        SourceName: GenerateRandomValue_Int32

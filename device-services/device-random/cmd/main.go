@@ -1,16 +1,16 @@
 // -*- Mode: Go; indent-tabs-mode: t -*-
 //
 // Copyright (C) 2018-2021 IOTech Ltd
+// Copyright 2023 Intel Corp.
 //
 // SPDX-License-Identifier: Apache-2.0
 
 package main
 
 import (
-	"github.com/edgexfoundry/device-sdk-go/v2/pkg/startup"
-
-	"github.com/edgexfoundry/device-random"
+	device_random "github.com/edgexfoundry/device-random"
 	"github.com/edgexfoundry/device-random/driver"
+	"github.com/edgexfoundry/device-sdk-go/v3/pkg/startup"
 )
 
 const (

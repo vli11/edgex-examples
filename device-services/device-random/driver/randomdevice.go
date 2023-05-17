@@ -1,6 +1,7 @@
 // -*- Mode: Go; indent-tabs-mode: t -*-
 //
 // Copyright (C) 2018-2021 IOTech Ltd
+// Copyright 2023 Intel Corp.
 //
 // SPDX-License-Identifier: Apache-2.0
 
@@ -11,7 +12,7 @@ import (
 	"math/rand"
 	"time"
 
-	"github.com/edgexfoundry/go-mod-core-contracts/v2/common"
+	"github.com/edgexfoundry/go-mod-core-contracts/v3/common"
 )
 
 const (
